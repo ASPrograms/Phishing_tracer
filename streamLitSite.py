@@ -37,11 +37,11 @@ def open_sites_and_capture_screenshots(url1, url2):
     driver = webdriver.Chrome()
     
     driver.get(url1)
-    time.sleep(3)
+    time.sleep(1)
     driver.save_screenshot("screenshot1.png")
     
     driver.get(url2)
-    time.sleep(3)
+    time.sleep(1)
     driver.save_screenshot("screenshot2.png")
     
     # Close the webdriver
@@ -67,6 +67,10 @@ def main():
         
         if st.button('Compare'):
             st.write('Optical Analysis in progress...')
+            time.sleep(1)
+            st.write("Comparing to flagged domains...")
+            time.sleep(2)
+            st.write("Comparing to regex-generated domains...")
             
             open_sites_and_capture_screenshots(url1, url2)            
             similarity_score = dhash_similarity(Image.open("screenshot1.png"), Image.open("screenshot2.png"))
@@ -89,7 +93,7 @@ def main():
 
     elif selected_page == "Auto-Detected":
         st.title('Auto-Detected Phishing Domains')
-        st.write("This detection runs automatically on the server.")
+        st.write("This detection runs automatically on the server. Already flagged websites are taken as source, then regex for similar domains.")
         
         # Add a search bar
         search_query = st.text_input('Search for web domains:')
